@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Image, StatusBar, StyleSheet, Dimensions} from 'react-native';
+import {PanGestureHandler} from 'react-native-gesture-handler';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
 import {
@@ -21,39 +22,55 @@ const OnBoardingScreen3 = ({navigation}) => {
   const handleNavigation = () => {
     navigation.navigate('LoginScreen');
   };
+  const onSwipeLeft = () => {
+    handleNavigation();
+  };
+
+  const onSwipeRight = () => {
+    navigation.goBack();
+  };
 
   return (
-    <View style={styles.container}>
-      <StatusBar
-        translucent={true}
-        backgroundColor="transparent"
-        barStyle={'dark-content'}
-      />
-      <View>
-        <Image
-          source={require('../../assets/images/onboardingImages/onBoardingImage3.png')}
-          style={{
-            width: w,
-            height: h * 0.65,
-            resizeMode: 'cover',
-          }}
+    <PanGestureHandler
+      onGestureEvent={({nativeEvent}) => {
+        if (nativeEvent.translationX < -50) {
+          onSwipeLeft();
+        } else if (nativeEvent.translationX > 50) {
+          onSwipeRight();
+        }
+      }}>
+      <View style={styles.container}>
+        <StatusBar
+          translucent={true}
+          backgroundColor="transparent"
+          barStyle={'dark-content'}
         />
-      </View>
-      <View style={styles.bottomContainer}>
-        <View style={styles.box}>
-          <OnBoardingText
-            heading={'Welcome!'}
-            text={'We’re happy to have you join our dog parents’ community'}
-          />
-          <DotIndicator currentScreen={3} />
-          <Button
-            buttontext={'Next'}
-            onPress={handleNavigation}
-            width={'100%'}
+        <View>
+          <Image
+            source={require('../../assets/images/onboardingImages/onBoardingImage3.png')}
+            style={{
+              width: w,
+              height: h * 0.65,
+              resizeMode: 'cover',
+            }}
           />
         </View>
+        <View style={styles.bottomContainer}>
+          <View style={styles.box}>
+            <OnBoardingText
+              heading={'Welcome!'}
+              text={'We’re happy to have you join our dog parents’ community'}
+            />
+            <DotIndicator currentScreen={3} />
+            <Button
+              buttontext={'Next'}
+              onPress={handleNavigation}
+              width={'100%'}
+            />
+          </View>
+        </View>
       </View>
-    </View>
+    </PanGestureHandler>
   );
 };
 

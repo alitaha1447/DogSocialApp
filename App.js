@@ -6,15 +6,18 @@ import AuthStackNavigator from './src/navigation/AuthStackNavigator';
 import AppStackNavigator from './src/navigation/AppStackNavigator';
 import {Provider, useSelector} from 'react-redux';
 import {store} from './src/data/redux/store';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <AppContent />
-      </NavigationContainer>
+      <GestureHandlerRootView style={{flex: 1}}>
+        <NavigationContainer>
+          <AppContent />
+        </NavigationContainer>
+      </GestureHandlerRootView>
     </Provider>
   );
 };
